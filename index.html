@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MyFisrtProject</title>
+    <style>
+      body {
+        margin: 0%;
+        padding: 0%;
+        background-color: #222;
+      }
+      .container {
+        display: flex;
+        width: 60%;
+        margin: auto;
+        margin-top: 110px;
+        height: 100%;
+        background-color: rgb(235, 236, 235);
+        border-radius: 12px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        /* border: 2px solid rgb(236, 17, 64); */
+      }
+      #div1 {
+        width: 100%;
+        text-align: center;
+      }
+
+      #div2 {
+        width: 40%;
+        /* border: 2px solid green; */
+      }
+      #div2 > img {
+        height: 100%;
+        border-radius: 12px;
+        width: 100%;
+      }
+      h4 {
+        margin-top: 30px;
+        font-size: larger;
+      }
+      input {
+        padding: 8px 10px;
+        border-radius: 10px;
+      }
+      input:hover {
+        background-color: rgb(160, 209, 252);
+        transition: all 0.3s;
+      }
+      button {
+        display: inline-block;
+        padding: 0.6rem 1.2rem;
+        border-radius: 10rem;
+        color: #130f0f;
+        text-transform: uppercase;
+        font-size: 1rem;
+        letter-spacing: 0.15rem;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+      #btn_playAgain {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="div1">
+        <h2>Guess The Number</h2>
+        <h3>Between 1-20</h3>
+        <p id="random">?</p>
+        <p id="suggestion">Start Guessing Numbers....</p>
+        <input type="text" id="guess" placeholder="Enter here" />
+        <button id="btn">Check</button> <br />
+        <h4>Score: <span id="score">20</span></h4>
+        <h4>High Score <span class="highscore">0</span></h4>
+        <button id="btn_playAgain">Play Again</button>
+      </div>
+      <div id="div2">
+        <img src="guessimg.png" alt="" />
+      </div>
+    </div>
+  </body>
+  <script>
+    let number = Math.trunc(Math.random() * 20) + 1;
+    let Score = 20;
+    let Highscore=0;
+    document.querySelector("#btn").addEventListener("click", function () {
+      const Guess = Number(document.querySelector("#guess").value);
+     
+      const displayMessage=function(message){
+        document.querySelector("#suggestion").textContent=message;
+      }
+      if (!Guess) {
+        displayMessage("No Number!");
+      } else if (Guess === number) {
+        displayMessage("You Win");
+        document.querySelector("body").style.backgroundColor = "red";
+        document.querySelector("#random").textContent = number;
+        document.querySelector("#random").style.cssText =
+          "font-size: 30px; color: red;";
+          if(Score>Highscore){
+            Highscore=Score;
+            document.querySelector(".highscore").textContent=Highscore;
+          }
+
+      }
+      else if (Guess !==number){
+        if (Score > 1) {
+         displayMessage(Guess>number? "Too High " :"Too Low");
+          Score--;
+          document.querySelector("#score").textContent = Score;
+        } else {
+          document.querySelector("#suggestion").textContent = "You Lost ";
+          document.querySelector("#score").textContent = 0;
+          document.querySelector("#random").textContent = number;
+          document.querySelector("#random").style.cssText =
+            "font-size: 30px; color: red;";
+        }
+      }
+    });
+
+    document.querySelector("#btn_playAgain").addEventListener('click',function(){
+      Score=20;
+      number = Math.trunc(Math.random() * 20) + 1;
+      document.querySelector("#score").textContent=Score;
+      document.querySelector("#guess").value=" ";
+      displayMessage ("Start Guessing Numbers...");
+      document.querySelector("body").style.backgroundColor = "#222";
+      document.querySelector("#random").textContent="?";
+      document.querySelector("#random").style.cssText =
+          "font-size: 20px; color: black;";
+    })
+  </script>
+</html>
+
